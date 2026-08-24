@@ -2,7 +2,7 @@
 
 > **Real-time lateral movement detection with spatial awareness, evidence-based explainability, and human-in-the-loop response.**
 
-**Repository:** `CF26-C04-[TeamName]`  
+**Repository:** `CF26-C04-NEXORA`  
 **Hackathon:** Intelligent Systems Challenge 2026  
 **Build Sprint:** 48 hours  
 **Status:** 🟡 In Development → Phase 2 (Engine + API)
