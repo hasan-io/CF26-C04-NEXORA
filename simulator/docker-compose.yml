@@ -9,7 +9,7 @@ services:
       POSTGRES_USER: c04
       POSTGRES_PASSWORD: secure_password
       POSTGRES_DB: c04_events
-      POSTGRES_INITDB_ARGS: "-c shared_buffers=256MB -c max_connections=200"
+      #POSTGRES_INITDB_ARGS: "-c shared_buffers=256MB -c max_connections=200"
     ports:
       - "5432:5432"
     volumes:
