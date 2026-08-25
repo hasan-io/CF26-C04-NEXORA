@@ -7,17 +7,16 @@ import asyncio
 import json
 import random
 import logging
-from datetime import datetime, timedelta
+import sqlite3
+import os
+from datetime import datetime
 from typing import List, Dict, Any, Optional
 from enum import Enum
 
-import psycopg2
-from psycopg2.extras import execute_values
 from fastapi import FastAPI, HTTPException, Query
 from pydantic import BaseModel
 import uvicorn
 from dotenv import load_dotenv
-import os
 
 from scenario_definitions import get_scenario, list_scenarios, SCENARIOS
 
@@ -26,12 +25,7 @@ from scenario_definitions import get_scenario, list_scenarios, SCENARIOS
 # ============================================================================
 load_dotenv()
 
-DB_HOST = os.getenv("DB_HOST", "localhost")
-DB_PORT = int(os.getenv("DB_PORT", "5432"))
-DB_USER = os.getenv("DB_USER", "c04")
-DB_PASSWORD = os.getenv("DB_PASSWORD", "secure_password")
-DB_NAME = os.getenv("DB_NAME", "c04_events")
-
+DB_PATH = os.getenv("DB_PATH", "/tmp/c04_events.db")
 APP_HOST = os.getenv("APP_HOST", "0.0.0.0")
 APP_PORT = int(os.getenv("APP_PORT", "8000"))
 DEBUG = os.getenv("DEBUG", "False").lower() == "true"
@@ -71,7 +65,7 @@ class StartScenarioRequest(BaseModel):
 
 
 # ============================================================================
-# DATABASE
+# DATABASE - SQLite Version (No PostgreSQL/psycopg2)
 # ============================================================================
 class DatabaseManager:
     def __init__(self):
@@ -79,27 +73,27 @@ class DatabaseManager:
         self.cursor = None
 
     def connect(self):
-        """Connect to PostgreSQL database"""
+        """Connect to SQLite database"""
         try:
-            self.connection = psycopg2.connect(
-                host=DB_HOST,
-                port=DB_PORT,
-                user=DB_USER,
-                password=DB_PASSWORD,
-                database=DB_NAME
-            )
+            # Ensure directory exists
+            db_dir = os.path.dirname(DB_PATH)
+            if db_dir and not os.path.exists(db_dir):
+                os.makedirs(db_dir, exist_ok=True)
+            
+            self.connection = sqlite3.connect(DB_PATH)
+            self.connection.row_factory = sqlite3.Row
             self.cursor = self.connection.cursor()
-            logger.info(f"Connected to PostgreSQL: {DB_HOST}:{DB_PORT}/{DB_NAME}")
+            logger.info(f"Connected to SQLite: {DB_PATH}")
             self._create_tables()
         except Exception as e:
             logger.error(f"Database connection failed: {e}")
             raise
 
     def _create_tables(self):
-        """Create events table if it doesn't exist"""
+        """Create events table if it doesn't exist - SQLite syntax"""
         create_table_sql = """
         CREATE TABLE IF NOT EXISTS events (
-            id SERIAL PRIMARY KEY,
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
             timestamp TIMESTAMP NOT NULL,
             device_id VARCHAR(100) NOT NULL,
             floor INTEGER,
@@ -116,9 +110,8 @@ class DatabaseManager:
             status VARCHAR(100),
             risk_level VARCHAR(20),
             scenario_id INTEGER,
-            raw_data JSONB,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            CONSTRAINT idx_timestamp_device UNIQUE (timestamp, device_id, event_type)
+            raw_data TEXT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );
         
         CREATE INDEX IF NOT EXISTS idx_timestamp ON events (timestamp DESC);
@@ -128,10 +121,10 @@ class DatabaseManager:
         CREATE INDEX IF NOT EXISTS idx_scenario_id ON events (scenario_id);
         """
         try:
-            self.cursor.execute(create_table_sql)
+            self.cursor.executescript(create_table_sql)
             self.connection.commit()
             logger.info("Events table ready")
-        except psycopg2.Error as e:
+        except sqlite3.Error as e:
             logger.warning(f"Table creation: {e}")
             self.connection.rollback()
 
@@ -144,8 +137,7 @@ class DatabaseManager:
                 source_ip, destination_ip, destination_device, port, protocol,
                 user_name, process_name, file_path, status, risk_level,
                 scenario_id, raw_data
-            ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-            ON CONFLICT (timestamp, device_id, event_type) DO NOTHING;
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """
             
             self.cursor.execute(insert_sql, (
@@ -169,7 +161,7 @@ class DatabaseManager:
             ))
             self.connection.commit()
             return True
-        except psycopg2.Error as e:
+        except sqlite3.Error as e:
             logger.error(f"Insert error: {e}")
             self.connection.rollback()
             return False
@@ -186,8 +178,7 @@ class DatabaseManager:
                 source_ip, destination_ip, destination_device, port, protocol,
                 user_name, process_name, file_path, status, risk_level,
                 scenario_id, raw_data
-            ) VALUES %s
-            ON CONFLICT (timestamp, device_id, event_type) DO NOTHING;
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """
             
             values = []
@@ -212,10 +203,10 @@ class DatabaseManager:
                     json.dumps(event)
                 ))
             
-            execute_values(self.cursor, insert_sql, values)
+            self.cursor.executemany(insert_sql, values)
             self.connection.commit()
             return len(events)
-        except psycopg2.Error as e:
+        except sqlite3.Error as e:
             logger.error(f"Batch insert error: {e}")
             self.connection.rollback()
             return 0

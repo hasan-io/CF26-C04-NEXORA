@@ -1,0 +1,257 @@
+# HealNode Configuration
+# Monitors 58 servers across C-04 building
+
+monitoring:
+  enabled: true
+  interval_seconds: 5
+  log_level: INFO
+
+servers:
+  # Floor 1 - IT Ops
+  - server_id: ITOPS-SERVER-F1-01
+    floor: 1
+    department: IT Ops
+    security_level: Critical
+    enabled: true
+
+  # Floor 2 - Finance
+  - server_id: FINANCE-SERVER-F2-01
+    floor: 2
+    department: Finance
+    security_level: Critical
+    enabled: true
+
+  - server_id: FINANCE-SERVER-F2-02
+    floor: 2
+    department: Finance
+    security_level: Critical
+    enabled: true
+
+  # Floor 3 - HR
+  - server_id: HR-SERVER-F3-01
+    floor: 3
+    department: HR
+    security_level: High
+    enabled: true
+
+  # Floor 4 - Sales/CRM
+  - server_id: CRM-SERVER-F4-01
+    floor: 4
+    department: Sales
+    security_level: High
+    enabled: true
+
+  - server_id: CRM-SERVER-F4-02
+    floor: 4
+    department: Sales
+    security_level: High
+    enabled: true
+
+  # Floor 5 - R&D Software
+  - server_id: DEV-SERVER-F5-01
+    floor: 5
+    department: R&D Software
+    security_level: High
+    enabled: true
+
+  - server_id: DEV-SERVER-F5-02
+    floor: 5
+    department: R&D Software
+    security_level: High
+    enabled: true
+
+  # Floor 6 - R&D Research
+  - server_id: RESEARCH-SERVER-F6-01
+    floor: 6
+    department: R&D Research
+    security_level: Critical
+    enabled: true
+
+  - server_id: RESEARCH-SERVER-F6-02
+    floor: 6
+    department: R&D Research
+    security_level: Critical
+    enabled: true
+
+  # Floor 7 - QA
+  - server_id: QA-SERVER-F7-01
+    floor: 7
+    department: QA
+    security_level: Medium
+    enabled: true
+
+  - server_id: QA-SERVER-F7-02
+    floor: 7
+    department: QA
+    security_level: Medium
+    enabled: true
+
+  # Floor 8 - Management
+  - server_id: EXEC-SERVER-F8-01
+    floor: 8
+    department: Management
+    security_level: Critical
+    enabled: true
+
+  - server_id: EXEC-SERVER-F8-02
+    floor: 8
+    department: Management
+    security_level: Critical
+    enabled: true
+
+  # Floor 9 - Data Center (CORE SERVERS)
+  - server_id: CORE-SERVER-F9-01
+    floor: 9
+    department: Data Center
+    security_level: Critical
+    enabled: true
+
+  - server_id: CORE-SERVER-F9-02
+    floor: 9
+    department: Data Center
+    security_level: Critical
+    enabled: true
+
+  - server_id: CORE-SERVER-F9-03
+    floor: 9
+    department: Data Center
+    security_level: Critical
+    enabled: true
+
+  - server_id: CORE-SERVER-F9-04
+    floor: 9
+    department: Data Center
+    security_level: Critical
+    enabled: true
+
+  - server_id: CORE-SERVER-F9-05
+    floor: 9
+    department: Data Center
+    security_level: Critical
+    enabled: true
+
+  - server_id: CORE-SERVER-F9-06
+    floor: 9
+    department: Data Center
+    security_level: Critical
+    enabled: true
+
+  - server_id: CORE-SERVER-F9-07
+    floor: 9
+    department: Data Center
+    security_level: Critical
+    enabled: true
+
+  - server_id: CORE-SERVER-F9-08
+    floor: 9
+    department: Data Center
+    security_level: Critical
+    enabled: true
+
+  # Floor 9 - Data Center (DATABASE SERVERS)
+  - server_id: DATABASE-SERVER-F9-01
+    floor: 9
+    department: Data Center
+    security_level: Critical
+    enabled: true
+
+  - server_id: DATABASE-SERVER-F9-02
+    floor: 9
+    department: Data Center
+    security_level: Critical
+    enabled: true
+
+  - server_id: DATABASE-SERVER-F9-03
+    floor: 9
+    department: Data Center
+    security_level: Critical
+    enabled: true
+
+  - server_id: DATABASE-SERVER-F9-04
+    floor: 9
+    department: Data Center
+    security_level: Critical
+    enabled: true
+
+  # Floor 9 - Data Center (BACKUP SERVERS)
+  - server_id: BACKUP-SERVER-F9-01
+    floor: 9
+    department: Data Center
+    security_level: Critical
+    enabled: true
+
+  - server_id: BACKUP-SERVER-F9-02
+    floor: 9
+    department: Data Center
+    security_level: Critical
+    enabled: true
+
+  - server_id: BACKUP-SERVER-F9-03
+    floor: 9
+    department: Data Center
+    security_level: Critical
+    enabled: true
+
+  - server_id: BACKUP-SERVER-F9-04
+    floor: 9
+    department: Data Center
+    security_level: Critical
+    enabled: true
+
+  # Floor 9 - Data Center (INFRASTRUCTURE)
+  - server_id: FIREWALL-F9-01
+    floor: 9
+    department: Data Center
+    security_level: Critical
+    enabled: true
+
+  - server_id: FIREWALL-F9-02
+    floor: 9
+    department: Data Center
+    security_level: Critical
+    enabled: true
+
+  - server_id: LOAD-BALANCER-F9-01
+    floor: 9
+    department: Data Center
+    security_level: Critical
+    enabled: true
+
+  - server_id: MONITORING-F9-01
+    floor: 9
+    department: Data Center
+    security_level: Critical
+    enabled: true
+
+database:
+  host: postgres
+  port: 5432
+  user: c04
+  password: secure_password
+  database: c04_events
+  pool_size: 10
+
+events:
+  # Event types to monitor
+  types:
+    - login
+    - database_query
+    - file_access
+    - service_activity
+    - connection
+    - health
+
+  # Alert thresholds
+  alerts:
+    login_failure_threshold: 3
+    cpu_threshold: 80
+    memory_threshold: 85
+    disk_threshold: 90
+
+docker:
+  enabled: true
+  socket: /var/run/docker.sock
+  auto_discover: true
+  network: c04_network
+
+total_servers: 58

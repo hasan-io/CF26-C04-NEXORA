@@ -1,0 +1,594 @@
+services:
+  # ==================== FLOOR 1: IT OPS ====================
+  itops-server-f1-01:
+    build: .
+    container_name: itops-server-f1-01
+    environment:
+      SERVER_ID: ITOPS-SERVER-F1-01
+      FLOOR: 1
+      DEPARTMENT: IT Ops
+      SECURITY_LEVEL: Critical
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_USER: c04
+      DB_PASSWORD: secure_password
+      DB_NAME: c04_events
+    networks:
+      - c04_network
+    restart: unless-stopped
+
+  # ==================== FLOOR 2: FINANCE ====================
+  finance-server-f2-01:
+    build: .
+    container_name: finance-server-f2-01
+    environment:
+      SERVER_ID: FINANCE-SERVER-F2-01
+      FLOOR: 2
+      DEPARTMENT: Finance
+      SECURITY_LEVEL: Critical
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_USER: c04
+      DB_PASSWORD: secure_password
+      DB_NAME: c04_events
+    networks:
+      - c04_network
+    restart: unless-stopped
+
+  finance-server-f2-02:
+    build: .
+    container_name: finance-server-f2-02
+    environment:
+      SERVER_ID: FINANCE-SERVER-F2-02
+      FLOOR: 2
+      DEPARTMENT: Finance
+      SECURITY_LEVEL: Critical
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_USER: c04
+      DB_PASSWORD: secure_password
+      DB_NAME: c04_events
+    networks:
+      - c04_network
+    restart: unless-stopped
+
+  # ==================== FLOOR 3: HR ====================
+  hr-server-f3-01:
+    build: .
+    container_name: hr-server-f3-01
+    environment:
+      SERVER_ID: HR-SERVER-F3-01
+      FLOOR: 3
+      DEPARTMENT: HR
+      SECURITY_LEVEL: High
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_USER: c04
+      DB_PASSWORD: secure_password
+      DB_NAME: c04_events
+    networks:
+      - c04_network
+    restart: unless-stopped
+
+  # ==================== FLOOR 4: SALES ====================
+  crm-server-f4-01:
+    build: .
+    container_name: crm-server-f4-01
+    environment:
+      SERVER_ID: CRM-SERVER-F4-01
+      FLOOR: 4
+      DEPARTMENT: Sales
+      SECURITY_LEVEL: High
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_USER: c04
+      DB_PASSWORD: secure_password
+      DB_NAME: c04_events
+    networks:
+      - c04_network
+    restart: unless-stopped
+
+  crm-server-f4-02:
+    build: .
+    container_name: crm-server-f4-02
+    environment:
+      SERVER_ID: CRM-SERVER-F4-02
+      FLOOR: 4
+      DEPARTMENT: Sales
+      SECURITY_LEVEL: High
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_USER: c04
+      DB_PASSWORD: secure_password
+      DB_NAME: c04_events
+    networks:
+      - c04_network
+    restart: unless-stopped
+
+  # ==================== FLOOR 5: R&D SOFTWARE ====================
+  dev-server-f5-01:
+    build: .
+    container_name: dev-server-f5-01
+    environment:
+      SERVER_ID: DEV-SERVER-F5-01
+      FLOOR: 5
+      DEPARTMENT: R&D Software
+      SECURITY_LEVEL: High
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_USER: c04
+      DB_PASSWORD: secure_password
+      DB_NAME: c04_events
+    networks:
+      - c04_network
+    restart: unless-stopped
+
+  dev-server-f5-02:
+    build: .
+    container_name: dev-server-f5-02
+    environment:
+      SERVER_ID: DEV-SERVER-F5-02
+      FLOOR: 5
+      DEPARTMENT: R&D Software
+      SECURITY_LEVEL: High
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_USER: c04
+      DB_PASSWORD: secure_password
+      DB_NAME: c04_events
+    networks:
+      - c04_network
+    restart: unless-stopped
+
+  # ==================== FLOOR 6: R&D RESEARCH ====================
+  research-server-f6-01:
+    build: .
+    container_name: research-server-f6-01
+    environment:
+      SERVER_ID: RESEARCH-SERVER-F6-01
+      FLOOR: 6
+      DEPARTMENT: R&D Research
+      SECURITY_LEVEL: Critical
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_USER: c04
+      DB_PASSWORD: secure_password
+      DB_NAME: c04_events
+    networks:
+      - c04_network
+    restart: unless-stopped
+
+  research-server-f6-02:
+    build: .
+    container_name: research-server-f6-02
+    environment:
+      SERVER_ID: RESEARCH-SERVER-F6-02
+      FLOOR: 6
+      DEPARTMENT: R&D Research
+      SECURITY_LEVEL: Critical
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_USER: c04
+      DB_PASSWORD: secure_password
+      DB_NAME: c04_events
+    networks:
+      - c04_network
+    restart: unless-stopped
+
+  # ==================== FLOOR 7: QA ====================
+  qa-server-f7-01:
+    build: .
+    container_name: qa-server-f7-01
+    environment:
+      SERVER_ID: QA-SERVER-F7-01
+      FLOOR: 7
+      DEPARTMENT: QA
+      SECURITY_LEVEL: Medium
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_USER: c04
+      DB_PASSWORD: secure_password
+      DB_NAME: c04_events
+    networks:
+      - c04_network
+    restart: unless-stopped
+
+  qa-server-f7-02:
+    build: .
+    container_name: qa-server-f7-02
+    environment:
+      SERVER_ID: QA-SERVER-F7-02
+      FLOOR: 7
+      DEPARTMENT: QA
+      SECURITY_LEVEL: Medium
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_USER: c04
+      DB_PASSWORD: secure_password
+      DB_NAME: c04_events
+    networks:
+      - c04_network
+    restart: unless-stopped
+
+  # ==================== FLOOR 8: MANAGEMENT ====================
+  exec-server-f8-01:
+    build: .
+    container_name: exec-server-f8-01
+    environment:
+      SERVER_ID: EXEC-SERVER-F8-01
+      FLOOR: 8
+      DEPARTMENT: Management
+      SECURITY_LEVEL: Critical
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_USER: c04
+      DB_PASSWORD: secure_password
+      DB_NAME: c04_events
+    networks:
+      - c04_network
+    restart: unless-stopped
+
+  exec-server-f8-02:
+    build: .
+    container_name: exec-server-f8-02
+    environment:
+      SERVER_ID: EXEC-SERVER-F8-02
+      FLOOR: 8
+      DEPARTMENT: Management
+      SECURITY_LEVEL: Critical
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_USER: c04
+      DB_PASSWORD: secure_password
+      DB_NAME: c04_events
+    networks:
+      - c04_network
+    restart: unless-stopped
+
+  # ==================== FLOOR 9: DATA CENTER - CORE SERVERS ====================
+  core-server-f9-01:
+    build: .
+    container_name: core-server-f9-01
+    environment:
+      SERVER_ID: CORE-SERVER-F9-01
+      FLOOR: 9
+      DEPARTMENT: Data Center
+      SECURITY_LEVEL: Critical
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_USER: c04
+      DB_PASSWORD: secure_password
+      DB_NAME: c04_events
+    networks:
+      - c04_network
+    restart: unless-stopped
+
+  core-server-f9-02:
+    build: .
+    container_name: core-server-f9-02
+    environment:
+      SERVER_ID: CORE-SERVER-F9-02
+      FLOOR: 9
+      DEPARTMENT: Data Center
+      SECURITY_LEVEL: Critical
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_USER: c04
+      DB_PASSWORD: secure_password
+      DB_NAME: c04_events
+    networks:
+      - c04_network
+    restart: unless-stopped
+
+  core-server-f9-03:
+    build: .
+    container_name: core-server-f9-03
+    environment:
+      SERVER_ID: CORE-SERVER-F9-03
+      FLOOR: 9
+      DEPARTMENT: Data Center
+      SECURITY_LEVEL: Critical
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_USER: c04
+      DB_PASSWORD: secure_password
+      DB_NAME: c04_events
+    networks:
+      - c04_network
+    restart: unless-stopped
+
+  core-server-f9-04:
+    build: .
+    container_name: core-server-f9-04
+    environment:
+      SERVER_ID: CORE-SERVER-F9-04
+      FLOOR: 9
+      DEPARTMENT: Data Center
+      SECURITY_LEVEL: Critical
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_USER: c04
+      DB_PASSWORD: secure_password
+      DB_NAME: c04_events
+    networks:
+      - c04_network
+    restart: unless-stopped
+
+  core-server-f9-05:
+    build: .
+    container_name: core-server-f9-05
+    environment:
+      SERVER_ID: CORE-SERVER-F9-05
+      FLOOR: 9
+      DEPARTMENT: Data Center
+      SECURITY_LEVEL: Critical
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_USER: c04
+      DB_PASSWORD: secure_password
+      DB_NAME: c04_events
+    networks:
+      - c04_network
+    restart: unless-stopped
+
+  core-server-f9-06:
+    build: .
+    container_name: core-server-f9-06
+    environment:
+      SERVER_ID: CORE-SERVER-F9-06
+      FLOOR: 9
+      DEPARTMENT: Data Center
+      SECURITY_LEVEL: Critical
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_USER: c04
+      DB_PASSWORD: secure_password
+      DB_NAME: c04_events
+    networks:
+      - c04_network
+    restart: unless-stopped
+
+  core-server-f9-07:
+    build: .
+    container_name: core-server-f9-07
+    environment:
+      SERVER_ID: CORE-SERVER-F9-07
+      FLOOR: 9
+      DEPARTMENT: Data Center
+      SECURITY_LEVEL: Critical
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_USER: c04
+      DB_PASSWORD: secure_password
+      DB_NAME: c04_events
+    networks:
+      - c04_network
+    restart: unless-stopped
+
+  core-server-f9-08:
+    build: .
+    container_name: core-server-f9-08
+    environment:
+      SERVER_ID: CORE-SERVER-F9-08
+      FLOOR: 9
+      DEPARTMENT: Data Center
+      SECURITY_LEVEL: Critical
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_USER: c04
+      DB_PASSWORD: secure_password
+      DB_NAME: c04_events
+    networks:
+      - c04_network
+    restart: unless-stopped
+
+  # ==================== FLOOR 9: DATA CENTER - DATABASE SERVERS ====================
+  database-server-f9-01:
+    build: .
+    container_name: database-server-f9-01
+    environment:
+      SERVER_ID: DATABASE-SERVER-F9-01
+      FLOOR: 9
+      DEPARTMENT: Data Center
+      SECURITY_LEVEL: Critical
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_USER: c04
+      DB_PASSWORD: secure_password
+      DB_NAME: c04_events
+    networks:
+      - c04_network
+    restart: unless-stopped
+
+  database-server-f9-02:
+    build: .
+    container_name: database-server-f9-02
+    environment:
+      SERVER_ID: DATABASE-SERVER-F9-02
+      FLOOR: 9
+      DEPARTMENT: Data Center
+      SECURITY_LEVEL: Critical
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_USER: c04
+      DB_PASSWORD: secure_password
+      DB_NAME: c04_events
+    networks:
+      - c04_network
+    restart: unless-stopped
+
+  database-server-f9-03:
+    build: .
+    container_name: database-server-f9-03
+    environment:
+      SERVER_ID: DATABASE-SERVER-F9-03
+      FLOOR: 9
+      DEPARTMENT: Data Center
+      SECURITY_LEVEL: Critical
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_USER: c04
+      DB_PASSWORD: secure_password
+      DB_NAME: c04_events
+    networks:
+      - c04_network
+    restart: unless-stopped
+
+  database-server-f9-04:
+    build: .
+    container_name: database-server-f9-04
+    environment:
+      SERVER_ID: DATABASE-SERVER-F9-04
+      FLOOR: 9
+      DEPARTMENT: Data Center
+      SECURITY_LEVEL: Critical
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_USER: c04
+      DB_PASSWORD: secure_password
+      DB_NAME: c04_events
+    networks:
+      - c04_network
+    restart: unless-stopped
+
+  # ==================== FLOOR 9: DATA CENTER - BACKUP SERVERS ====================
+  backup-server-f9-01:
+    build: .
+    container_name: backup-server-f9-01
+    environment:
+      SERVER_ID: BACKUP-SERVER-F9-01
+      FLOOR: 9
+      DEPARTMENT: Data Center
+      SECURITY_LEVEL: Critical
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_USER: c04
+      DB_PASSWORD: secure_password
+      DB_NAME: c04_events
+    networks:
+      - c04_network
+    restart: unless-stopped
+
+  backup-server-f9-02:
+    build: .
+    container_name: backup-server-f9-02
+    environment:
+      SERVER_ID: BACKUP-SERVER-F9-02
+      FLOOR: 9
+      DEPARTMENT: Data Center
+      SECURITY_LEVEL: Critical
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_USER: c04
+      DB_PASSWORD: secure_password
+      DB_NAME: c04_events
+    networks:
+      - c04_network
+    restart: unless-stopped
+
+  backup-server-f9-03:
+    build: .
+    container_name: backup-server-f9-03
+    environment:
+      SERVER_ID: BACKUP-SERVER-F9-03
+      FLOOR: 9
+      DEPARTMENT: Data Center
+      SECURITY_LEVEL: Critical
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_USER: c04
+      DB_PASSWORD: secure_password
+      DB_NAME: c04_events
+    networks:
+      - c04_network
+    restart: unless-stopped
+
+  backup-server-f9-04:
+    build: .
+    container_name: backup-server-f9-04
+    environment:
+      SERVER_ID: BACKUP-SERVER-F9-04
+      FLOOR: 9
+      DEPARTMENT: Data Center
+      SECURITY_LEVEL: Critical
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_USER: c04
+      DB_PASSWORD: secure_password
+      DB_NAME: c04_events
+    networks:
+      - c04_network
+    restart: unless-stopped
+
+  # ==================== FLOOR 9: DATA CENTER - INFRASTRUCTURE ====================
+  firewall-f9-01:
+    build: .
+    container_name: firewall-f9-01
+    environment:
+      SERVER_ID: FIREWALL-F9-01
+      FLOOR: 9
+      DEPARTMENT: Data Center
+      SECURITY_LEVEL: Critical
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_USER: c04
+      DB_PASSWORD: secure_password
+      DB_NAME: c04_events
+    networks:
+      - c04_network
+    restart: unless-stopped
+
+  firewall-f9-02:
+    build: .
+    container_name: firewall-f9-02
+    environment:
+      SERVER_ID: FIREWALL-F9-02
+      FLOOR: 9
+      DEPARTMENT: Data Center
+      SECURITY_LEVEL: Critical
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_USER: c04
+      DB_PASSWORD: secure_password
+      DB_NAME: c04_events
+    networks:
+      - c04_network
+    restart: unless-stopped
+
+  load-balancer-f9-01:
+    build: .
+    container_name: load-balancer-f9-01
+    environment:
+      SERVER_ID: LOAD-BALANCER-F9-01
+      FLOOR: 9
+      DEPARTMENT: Data Center
+      SECURITY_LEVEL: Critical
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_USER: c04
+      DB_PASSWORD: secure_password
+      DB_NAME: c04_events
+    networks:
+      - c04_network
+    restart: unless-stopped
+
+  monitoring-f9-01:
+    build: .
+    container_name: monitoring-f9-01
+    environment:
+      SERVER_ID: MONITORING-F9-01
+      FLOOR: 9
+      DEPARTMENT: Data Center
+      SECURITY_LEVEL: Critical
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_USER: c04
+      DB_PASSWORD: secure_password
+      DB_NAME: c04_events
+    networks:
+      - c04_network
+    restart: unless-stopped
+
+networks:
+  c04_network:
+    driver: bridge
