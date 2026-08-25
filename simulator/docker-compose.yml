@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: c04-postgres
+    environment:
+      POSTGRES_USER: c04
+      POSTGRES_PASSWORD: secure_password
+      POSTGRES_DB: c04_events
+      POSTGRES_INITDB_ARGS: "-c shared_buffers=256MB -c max_connections=200"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U c04"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - c04-network
+    restart: unless-stopped
+
+  # LabMon Simulator (FastAPI)
+  simulator:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: c04-simulator
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: c04
+      DB_PASSWORD: secure_password
+      DB_NAME: c04_events
+      APP_HOST: 0.0.0.0
+      APP_PORT: 8000
+      DEBUG: "false"
+      NORMAL_EVENTS_PER_SECOND: 15
+      SCENARIO_DURATION_SECONDS: 120
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./device_config.json:/app/device_config.json
+      - ./scenario_definitions.py:/app/scenario_definitions.py
+      - ./labmon_simulator.py:/app/labmon_simulator.py
+      - ./.env:/app/.env
+    networks:
+      - c04-network
+    restart: unless-stopped
+    command: python labmon_simulator.py
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  c04-network:
+    driver: bridge
